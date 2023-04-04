@@ -2,6 +2,8 @@ package com.promineotech.jeep.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
+import java.math.BigDecimal;
+import java.util.LinkedList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,5 +47,34 @@ class FetchJeepTest {
     String uri = String.format("http://localhost:%d/jeeps?model=%s&trim=%s", serverPort, model, trim);
     ResponseEntity<List<Jeep>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Jeep>>() {});
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    List<Jeep> expected = buildExpected();
+    assertThat(response.getBody()).isEqualTo(expected);
+    System.out.println(response.getBody());
+  }
+  
+  protected List<Jeep> buildExpected(){
+    List<Jeep> list = new LinkedList<Jeep>();
+    
+    // @formatter:off
+    list.add(Jeep.builder()
+        .modelId(JeepModel.WRANGLER)
+        .trimLevel("Sport")
+        .numDoors(2)
+        .wheelSize(17)
+        .basePrice(new BigDecimal("28475.00"))
+        .build());
+    
+    list.add(Jeep.builder()
+        .modelId(JeepModel.WRANGLER)
+        .trimLevel("Sport")
+        .numDoors(4)
+        .wheelSize(17)
+        .basePrice(new BigDecimal("31975.00"))
+        .build());
+    
+    //@formatter:on
+    return list;
+    
+    
   }
 }
