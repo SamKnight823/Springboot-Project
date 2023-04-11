@@ -36,8 +36,6 @@ class FetchJeepTest {
   
   @LocalServerPort
   private int serverPort;
-  
-
 
   @Test
 
@@ -73,8 +71,7 @@ class FetchJeepTest {
         .build());
     
     //@formatter:on
-    return list;
-    
+    return list;    
     
   }
 }
